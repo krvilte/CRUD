@@ -1,23 +1,31 @@
 import React, { useState } from "react";
-import { auth } from "../../config/firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { useAuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { user, signUp, googleSignIn } = useAuthContext();
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const handleSignUp = async (e) => {
     e.preventDefault();
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
-      // Navigate to home
+      signUp(email, password);
       navigate("/");
-      console.log("Your Account is created successfully!");
+      console.log(user);
     } catch (error) {
-      const errorMessage = error.message;
-      console.error(errorMessage);
+      console.error("ERROR: ", error);
+    }
+  };
+
+  const handleGoogleSignUp = async () => {
+    try {
+      googleSignIn();
+      navigate("/");
+      console.log(user);
+    } catch (error) {
+      console.error("Google Sign-In Error: ", error); //
     }
   };
 
@@ -25,7 +33,7 @@ const Login = () => {
     <main className="bg-gray-100 flex items-center justify-center min-h-screen">
       <div className="bg-white p-8 rounded-lg shadow-md w-96">
         <h2 className="text-2xl font-bold text-center">Sign up</h2>
-        <form className="mt-4" onSubmit={handleSubmit}>
+        <form className="mt-4" onSubmit={handleSignUp}>
           <div className="mt-4">
             <label
               htmlFor="email"
@@ -60,31 +68,27 @@ const Login = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <div className="mt-4 flex items-center justify-between">
-            <div className="flex items-center">
-              <input
-                type="checkbox"
-                id="remember"
-                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-              />
-              <label
-                htmlFor="remember"
-                className="ml-2 block text-sm text-gray-900"
-              >
-                Remember me
-              </label>
-            </div>
-            <a href="#" className="text-sm text-blue-600 hover:underline">
-              Forgot password?
-            </a>
-          </div>
+
           <button
             type="submit"
             className="mt-6 w-full bg-blue-600 text-white font-semibold py-2 rounded-md hover:bg-blue-700"
           >
-            Log In
+            Sign Up
           </button>
         </form>
+        <button
+          onClick={handleGoogleSignUp}
+          className="mt-6 w-full bg-gray-600 text-white font-semibold py-2 rounded-md hover:bg-gray-700"
+        >
+          Continue with google
+        </button>
+
+        <span
+          onClick={() => navigate("/login")}
+          className="cursor-pointer  mx-auto my-3 block text-center hover:text-red-600"
+        >
+          Login
+        </span>
       </div>
     </main>
   );

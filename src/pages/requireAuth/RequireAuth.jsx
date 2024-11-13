@@ -1,7 +1,12 @@
-import React from "react";
+import { Navigate, useLocation } from "react-router-dom";
+import { useAuthContext } from "../../context/AuthContext";
+import Home from "../home/Home";
 
 function RequireAuth() {
-  return <div>Require Auth</div>;
+  const { user } = useAuthContext();
+  const location = useLocation();
+
+  return user ? <Home /> : <Navigate to="/login" state={{ from: location }} />;
 }
 
 export default RequireAuth;

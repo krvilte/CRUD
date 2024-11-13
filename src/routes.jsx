@@ -6,7 +6,7 @@ import Login from "./pages/login/Login";
 import Signup from "./pages/signup/Signup";
 import ErrorPage from "./pages/error/ErrorPage";
 
-export const router = createBrowserRouter([
+const router = createBrowserRouter([
   {
     element: <RequireAuth />,
     children: [
@@ -15,17 +15,17 @@ export const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "user",
+        path: "/user",
         element: <User />,
       },
     ],
   },
   {
-    path: "login",
+    path: "/login",
     element: <Login />,
   },
   {
-    path: "signup",
+    path: "/signup",
     element: <Signup />,
   },
   {
@@ -33,3 +33,5 @@ export const router = createBrowserRouter([
     element: <ErrorPage />,
   },
 ]);
+
+export default router;

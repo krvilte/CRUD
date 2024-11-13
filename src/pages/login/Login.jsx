@@ -1,22 +1,29 @@
 import React, { useState } from "react";
-import { auth } from "../../config/firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "../../context/AuthContext";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { logIn, googleSignIn } = useAuthContext();
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const handleLogIn = async (e) => {
     e.preventDefault();
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      // Navigate to home
+      logIn(email, password);
       navigate("/");
     } catch (error) {
-      const errorMessage = error.message;
-      console.error(errorMessage);
+      console.error(error.message);
+    }
+  };
+
+  const handleGoogleSignUp = async () => {
+    try {
+      googleSignIn();
+      navigate("/");
+    } catch (error) {
+      console.error(error.message);
     }
   };
 
@@ -24,7 +31,7 @@ const Login = () => {
     <main className="bg-gray-100 flex items-center justify-center min-h-screen">
       <div className="bg-white p-8 rounded-lg shadow-md w-96">
         <h2 className="text-2xl font-bold text-center">Login</h2>
-        <form className="mt-4" onSubmit={handleSubmit}>
+        <form className="mt-4" onSubmit={handleLogIn}>
           <div className="mt-4">
             <label
               htmlFor="email"
@@ -84,6 +91,18 @@ const Login = () => {
             Log In
           </button>
         </form>
+        <button
+          onClick={handleGoogleSignUp}
+          className="mt-6 w-full bg-gray-600 text-white font-semibold py-2 rounded-md hover:bg-gray-700"
+        >
+          Continue with google
+        </button>
+        <span
+          onClick={() => navigate("/signup")}
+          className="cursor-pointer  mx-auto my-3 block text-center hover:text-red-600"
+        >
+          Sign up
+        </span>
       </div>
     </main>
   );
