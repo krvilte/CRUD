@@ -6,7 +6,12 @@ function RequireAuth() {
   const location = useLocation();
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      // Loading State
+      <div className="bg-slate-900 flex items-center justify-center h-screen">
+        <div className="border-gray-300 h-10 w-10 animate-spin rounded-full border-8 border-t-blue-600"></div>
+      </div>
+    );
   }
 
   return user ? (

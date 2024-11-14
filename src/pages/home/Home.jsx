@@ -13,11 +13,11 @@ const Home = () => {
   };
 
   return (
-    <div className="flex flex-col">
-      <p>Home</p>
+    <div className="bg-slate-900 h-[100vh] flex flex-col items-center justify-center">
+      <h1 className="text-center text-white text-xl">Homepage</h1>
       <button
         onClick={handleLogout}
-        className="bg-blue-400 mt-5 px-6 py-3 rounded-full w-28 hover:bg-blue-500"
+        className="text-gray-900 bg-white mx-auto mt-3 px-5 py-3 rounded hover:bg-gray-100 focus:ring-4"
       >
         Log Out
       </button>
