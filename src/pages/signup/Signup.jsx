@@ -5,15 +5,14 @@ import { useNavigate } from "react-router-dom";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { user, signUp, googleSignIn } = useAuthContext();
+  const { signUp, googleSignIn } = useAuthContext();
   const navigate = useNavigate();
 
   const handleSignUp = async (e) => {
     e.preventDefault();
     try {
-      signUp(email, password);
+      await signUp(email, password);
       navigate("/");
-      console.log(user);
     } catch (error) {
       console.error("ERROR: ", error);
     }
@@ -21,9 +20,8 @@ const Login = () => {
 
   const handleGoogleSignUp = async () => {
     try {
-      googleSignIn();
+      await googleSignIn();
       navigate("/");
-      console.log(user);
     } catch (error) {
       console.error("Google Sign-In Error: ", error); //
     }

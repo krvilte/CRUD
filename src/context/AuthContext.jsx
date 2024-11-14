@@ -12,6 +12,7 @@ import { auth } from "../config/firebase";
 
 const methods = {
   user: () => {},
+  loading: () => {},
   logIn: () => {},
   signUp: () => {},
   logOut: () => {},
@@ -29,9 +30,11 @@ export const useAuthContext = () => {
 // Provide Context
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
+      setLoading(false);
     });
 
     // Clean up subscription on unmount
@@ -76,7 +79,9 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <authContext.Provider value={{ user, logIn, signUp, logOut, googleSignIn }}>
+    <authContext.Provider
+      value={{ user, loading, logIn, signUp, logOut, googleSignIn }}
+    >
       {children}
     </authContext.Provider>
   );

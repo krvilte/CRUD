@@ -11,7 +11,7 @@ const Login = () => {
   const handleLogIn = async (e) => {
     e.preventDefault();
     try {
-      logIn(email, password);
+      await logIn(email, password);
       navigate("/");
     } catch (error) {
       console.error(error.message);
@@ -20,7 +20,7 @@ const Login = () => {
 
   const handleGoogleSignUp = async () => {
     try {
-      googleSignIn();
+      await googleSignIn();
       navigate("/");
     } catch (error) {
       console.error(error.message);
