@@ -7,6 +7,7 @@ const Home = () => {
     doing: "",
     done: "",
   });
+  const [dragTask, setDragTask] = useState([]);
 
   const handleSubmit = (e, status) => {
     e.preventDefault();
@@ -27,13 +28,56 @@ const Home = () => {
     setInputValue((prev) => ({ ...prev, [name]: value })); // Update specific input field
   };
 
+  //Delete Task
+  const handleDelete = (e, id) => {
+    setTodos(todos.filter((todo) => todo.id !== id));
+  };
+
+  //Drag and Drop
+  const handleDragNDrop = (status) => {
+    let tempTask = [...todos];
+    tempTask = tempTask.map((todo) => {
+      if (dragTask.id === todo.id) {
+        todo.status = status;
+      }
+      return todo;
+    });
+    setTodos(tempTask);
+    setDragTask(null);
+  };
+
+  const handleDrag = (e, todo) => {
+    setDragTask(todo);
+  };
+
+  const handleDrop = (e) => {
+    const status = e.target.getAttribute("data-status");
+
+    if (status === "todo") {
+      handleDragNDrop("todo");
+    } else if (status === "doing") {
+      handleDragNDrop("doing");
+    } else if (status === "done") {
+      handleDragNDrop("done");
+    }
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+  };
+
   return (
     <main className="lg:container m-auto">
       <h1 className="text-center text-3xl font-bold my-5">Kanban Taskboard</h1>
       {/* Task Board */}
       <div className="flex justify-center">
         {/* Todos Tasks */}
-        <div className="w-1/3 mx-1 p-2 rounded">
+        <div
+          data-status="todo"
+          onDrop={handleDrop}
+          onDragOver={handleDragOver}
+          className="w-1/3 mx-1 p-2 rounded"
+        >
           <h2 className="bg-gray-600 p-2 mb-2 text-center text-xl select-none font-semibold rounded">
             Todo
           </h2>
@@ -43,6 +87,8 @@ const Home = () => {
             .map((todo) => {
               return (
                 <div
+                  draggable
+                  onDrag={(e) => handleDrag(e, todo)}
                   key={todo.id}
                   className="flex justify-between p-2 mb-1 hover:bg-slate-800 text-white font-sans text-base cursor-move rounded"
                 >
@@ -69,6 +115,7 @@ const Home = () => {
                       viewBox="0 0 24 24"
                       strokeWidth="1.5"
                       stroke="currentColor"
+                      onClick={(e) => handleDelete(e, todo.id)}
                       className="size-5 mx-2 hover:text-red-500 hover:cursor-pointer"
                     >
                       <path
@@ -95,7 +142,12 @@ const Home = () => {
         </div>
 
         {/* Doing Tasks */}
-        <div className="w-1/3 mx-1 p-2 rounded border border-slate-700 shadow-sm">
+        <div
+          data-status="doing"
+          onDrop={handleDrop}
+          onDragOver={handleDragOver}
+          className="w-1/3 mx-1 p-2 rounded border border-slate-700 shadow-sm"
+        >
           <h2 className="bg-blue-600 p-2 mb-2 text-center text-xl select-none font-semibold rounded">
             Doing
           </h2>
@@ -105,6 +157,8 @@ const Home = () => {
             .map((todo) => {
               return (
                 <div
+                  draggable
+                  onDrag={(e) => handleDrag(e, todo)}
                   key={todo.id}
                   className="flex justify-between p-2 mb-1 hover:bg-slate-800 text-white font-sans text-base cursor-move rounded"
                 >
@@ -116,6 +170,7 @@ const Home = () => {
                       viewBox="0 0 24 24"
                       strokeWidth="1.5"
                       stroke="currentColor"
+                      onClick={(e) => handleDelete(e, todo.id)}
                       className="size-5 mx-2 hover:text-green-500 hover:cursor-pointer"
                     >
                       <path
@@ -131,6 +186,7 @@ const Home = () => {
                       viewBox="0 0 24 24"
                       strokeWidth="1.5"
                       stroke="currentColor"
+                      onClick={(e) => handleDelete(e, todo.id)}
                       className="size-5 mx-2 hover:text-red-500 hover:cursor-pointer"
                     >
                       <path
@@ -157,7 +213,12 @@ const Home = () => {
         </div>
 
         {/* Done Tasks */}
-        <div className="w-1/3 mx-1 p-2 rounded">
+        <div
+          data-status="done"
+          onDrop={handleDrop}
+          onDragOver={handleDragOver}
+          className="w-1/3 mx-1 p-2 rounded"
+        >
           <h2 className="bg-green-600 p-2 mb-2 text-center text-xl select-none font-semibold rounded">
             Done
           </h2>
@@ -167,6 +228,8 @@ const Home = () => {
             .map((todo) => {
               return (
                 <div
+                  draggable
+                  onDrag={(e) => handleDrag(e, todo)}
                   key={todo.id}
                   className="flex justify-between p-2 mb-1 hover:bg-slate-800 text-white font-sans text-base cursor-move rounded"
                 >
@@ -193,6 +256,7 @@ const Home = () => {
                       viewBox="0 0 24 24"
                       strokeWidth="1.5"
                       stroke="currentColor"
+                      onClick={(e) => handleDelete(e, todo.id)}
                       className="size-5 mx-2 hover:text-red-500 hover:cursor-pointer"
                     >
                       <path
