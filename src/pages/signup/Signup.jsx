@@ -28,9 +28,11 @@ const Login = () => {
   };
 
   return (
-    <main className="bg-gray-100 flex items-center justify-center min-h-screen">
+    <main className="flex items-center justify-center min-h-screen">
       <div className="bg-white p-8 rounded-lg shadow-md w-96">
-        <h2 className="text-2xl font-bold text-center">Sign up</h2>
+        <h2 className="text-2xl text-gray-700 font-bold text-center">
+          Sign up
+        </h2>
         <form className="mt-4" onSubmit={handleSignUp}>
           <div className="mt-4">
             <label
@@ -44,12 +46,12 @@ const Login = () => {
               id="email"
               placeholder="Enter your email"
               required
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:outline-none focus:ring-0"
+              className="mt-1 block w-full border text-gray-700 border-gray-300 rounded-md shadow-sm p-2 focus:outline-none focus:ring-0"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
-          <div className="mt-4">
+          <div className="mt-4 text-gray-700">
             <label
               htmlFor="password"
               className="block text-sm font-medium text-gray-700"
@@ -61,7 +63,7 @@ const Login = () => {
               id="password"
               placeholder="Enter your password"
               required
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:outline-none focus:ring-0"
+              className="mt-1 block w-full border text-gray-700 border-gray-300 rounded-md shadow-sm p-2 focus:outline-none focus:ring-0"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
@@ -76,17 +78,20 @@ const Login = () => {
         </form>
         <button
           onClick={handleGoogleSignUp}
-          className="mt-6 w-full bg-gray-600 text-white font-semibold py-2 rounded-md hover:bg-gray-700"
+          className="mt-6 w-full bg-gray-200 text-gray-900 font-semibold py-2 rounded-md hover:bg-gray-300"
         >
           Continue with google
         </button>
 
-        <span
-          onClick={() => navigate("/login")}
-          className="cursor-pointer  mx-auto my-3 block text-center hover:text-red-600"
-        >
-          Login
-        </span>
+        <div className="flex gap-1 justify-center mt-5 text-sm text-gray-700">
+          <span>Already have an account?</span>
+          <span
+            onClick={() => navigate("/login")}
+            className="cursor-pointer font-semibold hover:text-blue-600"
+          >
+            Login
+          </span>
+        </div>
       </div>
     </main>
   );
